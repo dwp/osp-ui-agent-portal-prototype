@@ -1,0 +1,109 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+      {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+      {% call govukFieldset({
+        legend: {
+          text: "Find a claim",
+          classes: "govuk-fieldset__legend--l",
+          isPageHeading: true
+        }
+      }) %}
+
+        {{ govukInput({
+          label: {
+            text: "National Insurance Number",
+            classes: "govuk-fieldset__legend--m"
+          },
+          hint: {
+            text: "This is 2 letters followed by 6 digits and 1 letter. For example 'QQ123456C'"
+          },
+          classes: "govuk-input--width-10",
+          id: "user-name",
+          name: "userName",
+          autocomplete: ""
+        }) }}
+
+        {% from "govuk/components/select/macro.njk" import govukSelect %}
+
+      {% endcall %}
+
+    {% from "govuk/components/button/macro.njk" import govukButton %}
+
+      {{ govukButton({
+        text: "Continue",
+        href: "/account-summary"
+      }) }}
+
+    {% from "govuk/components/details/macro.njk" import govukDetails %}
+
+    {% call govukDetails({
+      summaryText: "dev tools"
+    }) %}
+
+        <h3 class="govuk-heading-m">Developer Tools</h3>
+              
+        {{ govukWarningText({
+          text: "This section contains the developer tools, NOT shown in production!",
+          iconFallbackText: "Warning"
+        }) }}
+
+        {% from "govuk/components/table/macro.njk" import govukTable %}
+
+        {{ govukTable({
+          caption: "Test Cases",
+          captionClasses: "govuk-table__caption--m",
+          firstCellIsHeader: true,
+          head: [
+            {
+              text: "Nino"
+            },
+            {
+              text: "View"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "AJ000002A"
+              },
+              {
+                text: "view"
+              }
+            ],
+            [
+              {
+                text: "SE110054A"
+              },
+              {
+                text: "view"
+              }
+            ],
+            [
+              {
+                text: "SE110020A"
+              },
+              {
+                text: "view"
+              }
+            ]
+          ]
+        }) }}
+
+
+    {% endcall %}
+      
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,247 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <form method="post" action="/developer-login">
+
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+      {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+      {% call govukFieldset({
+        legend: {
+          text: "Developer Login",
+          classes: "govuk-fieldset__legend--l",
+          isPageHeading: true
+        }
+      }) %}
+
+        {{ govukWarningText({
+          text: "This is the developer login page, NOT shown in production!",
+          iconFallbackText: "Warning"
+        }) }}
+
+        {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+  
+        {% if loginErrors.length %}
+          {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: loginErrors
+          }) }}
+        {% endif %}
+
+        {{ govukInput({
+          label: {
+            text: "User Name"
+          },
+          classes: "govuk-input--width-10",
+          id: "userName",
+          name: "userName",
+          autocomplete: "off",
+          errorMessage: loginErrors.length and {
+            text: "Enter your user name"
+          }
+        }) }}
+
+        {% from "govuk/components/select/macro.njk" import govukSelect %}
+
+        {{ govukSelect({
+          id: "role",
+          name: "role",
+          label: {
+            text: "Role"
+          },
+          items: [
+            {
+              value: "ABC_001",
+              text: "ABC_001",
+              selected: true
+            },
+            {
+              value: "ABC_002",
+              text: "ABC_002",
+              selected: false
+            },
+            {
+              value: "ABC_003",
+              text: "ABC_003",
+              selected: false
+            },
+            {
+              value: "ABC_004",
+              text: "ABC_004",
+              selected: false
+            }
+          ]
+        }) }}
+
+        {{ govukSelect({
+          id: "user-grade",
+          name: "userGrade",
+          label: {
+            text: "User Grade"
+          },
+          items: [
+            {
+              value: "eo",
+              text: "EO",
+              selected: true
+            },
+            {
+              value: "ug-1",
+              text: "UG-1",
+              selected: false
+            },
+            {
+              value: "ug-2",
+              text: "UG-2",
+              selected: false
+            },
+            {
+              value: "ug-3",
+              text: "UG-3",
+              selected: false
+            }
+          ]
+        }) }}
+
+        {{ govukSelect({
+          id: "officeLocation",
+          name: "officeLocation",
+          label: {
+            text: "Office Location"
+          },
+          items: [
+            {
+              value: "gb",
+              text: "GB",
+              selected: true
+            },
+            {
+              value: "ni",
+              text: "NI",
+              selected: false
+            },
+            {
+              value: "ig",
+              text: "IG",
+              selected: false
+            },
+            {
+              value: "unknown",
+              text: "Unknown",
+              selected: false
+            }
+          ]
+        }) }}
+
+      {% endcall %}
+
+      {% from "govuk/components/button/macro.njk" import govukButton %}
+
+      {{ govukButton({
+        text: "Login",
+        type: "submit"
+      }) }}
+
+      </form>
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">Authentication Headers</h2>
+
+      <p class="govuk-body">
+          Your SLOC is INVALID!<br>
+          Your ROLE is INVALID!
+      </p>
+
+       <p class="govuk-body">
+        <table class="govuk-table">
+          <caption class="govuk-table__caption govuk-table__caption--m govuk-!-margin-top-2">CIS role mapping</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header" style="white-space: nowrap;">CIS Role Code</th>
+              <th scope="col" class="govuk-table__header">SDA Role Name</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+        
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">ABC_001</th>
+              <td class="govuk-table__cell">summary_read,personal_read</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">ABC_002</th>
+              <td class="govuk-table__cell">summary_read,personal_read,summary_write,personal_write</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">ABC_003</th>
+              <td class="govuk-table__cell">summary_read,summary_write,summary_write_sensitive</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">ABC_004</th>
+              <td class="govuk-table__cell">summary_write,personal_write</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </p>
+
+      <p class="govuk-body">
+          <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-table__caption--m govuk-!-margin-top-2">SLOC office location mapping</caption>
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">CIS Role Code</th>
+                <th scope="col" class="govuk-table__header">SDA Role Name</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">102345</th>
+                <td class="govuk-table__cell">GB</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">102346</th>
+                <td class="govuk-table__cell">GB</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">102347</th>
+                <td class="govuk-table__cell">GB</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">101345</th>
+                <td class="govuk-table__cell">NI</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">101346</th>
+                <td class="govuk-table__cell">NI</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">101347</th>
+                <td class="govuk-table__cell">NI</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">103345</th>
+                <td class="govuk-table__cell">IG</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">103346</th>
+                <td class="govuk-table__cell">IG</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">103347</th>
+                <td class="govuk-table__cell">IG</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">104347</th>
+                <td class="govuk-table__cell">GB,NI</td>
+              </tr>
+            </tbody>
+          </table>
+        </p>
+
+  </div>
+
+{% endblock %}
