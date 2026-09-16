@@ -39,15 +39,6 @@ SPDX-License-Identifier: LicenseRef-HMG-Proprietary-DWP-1.0
           }) }}
         {% endif %}
 
-        {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-  
-        {% if loginErrors.length %}
-          {{ govukErrorSummary({
-            titleText: "There is a problem",
-            errorList: loginErrors
-          }) }}
-        {% endif %}
-
         {{ govukInput({
           label: {
             text: "User Name"

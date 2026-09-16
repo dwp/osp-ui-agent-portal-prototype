@@ -60,7 +60,7 @@ router.post('/find-a-claim', (req, res) => {
         })
     }
 
-    if (!Nino.isValidNino(nino)) {
+    if (findAClaimErrors?.length === 0 && !Nino.isValidNino(nino)) {
         findAClaimErrors.push({
             text: "NI Number must be in acceptable format",
             href: "#nino"
