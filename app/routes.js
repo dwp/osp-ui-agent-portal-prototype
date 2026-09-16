@@ -4,39 +4,75 @@
 //
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
+const Nino = require('./utils/nino');
+
+const userRoleMapping = {
+    "CIS-901": { text: "Claims and Changes Agent" },
+    "CIS-902": { text: "View Only" },
+    "CIS-903": { text: "SCR agent" }
+}
+
+const userGradeMapping = {
+    "CIS-911": { text: "EO and above" },
+    "CIS-???": { text: "Other" },
+}
 
 // Add your routes here
+router.get('/developer-login', (req, res) => {
+    req.session.data.userData = {};
+
+    return res.render('/developer-login')
+});
+
 router.post('/developer-login', (req, res) => {
-    const userName = req.body.userName;
+    const { userName } = req.session.data;
     const loginErrors = [];
-    
+
     if (!userName?.trim()) { 
         loginErrors.push({
             text: "Enter your user name",
-            href: "#"
+            href: "#userName"
         })
+    }
+
+    if (loginErrors.length) {
         return res.render('/developer-login', { 
             loginErrors 
         })
-    } else {
-        req.session.loginErrors = [];
-        return res.redirect('/find-a-claim')
-    } 
+    }
+
+    // user data displayed in the footer
+    req.session.data.userData.userName = userName;
+    req.session.data.userData.userRole = userRoleMapping[req.session.data.userRole]?.text;
+    req.session.data.userData.userGrade = userGradeMapping[req.session.data.userGrade]?.text;
+    req.session.data.userData.officeLocation = req.session.data.officeLocation;
+    return res.redirect('/find-a-claim')
 });
 
 router.post('/find-a-claim', (req, res) => {
-    const userName = req.body.userName;
+    const { nino } = req.session.data
+    const findAClaimErrors = [];
     
-    if (!userName?.trim()) { 
-        loginErrors.push({
-            text: "Enter your user name",
-            href: "#"
+    if (!nino?.trim()) {
+        findAClaimErrors.push({
+            text: "Enter a National Insurance number",
+            href: "#nino"
         })
-        return res.render('/developer-login', { 
-            // can we use shorthand here of just {errors}
-            loginErrors: loginErrors 
+    }
+
+    if (!Nino.isValidNino(nino)) {
+        findAClaimErrors.push({
+            text: "NI Number must be in acceptable format",
+            href: "#nino"
         })
-    } else {
-        return res.redirect('/account-summary')
-    } 
+    }
+
+    if (findAClaimErrors.length) {
+        return res.render('/find-a-claim', {
+            findAClaimErrors
+        })
+    }
+
+    req.session.data.nino = '';
+    return res.redirect('/account-summary');
 });

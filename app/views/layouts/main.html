@@ -4,3 +4,37 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 #}
 
 {% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+
+
+{% block footer %}
+  <footer class="govuk-footer">
+    <div class="govuk-width-container">
+      <div class="govuk-footer__meta">
+        <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+          <ul class="govuk-footer__list">
+
+            <li class="govuk-footer__list-item">
+                Version: 0.1.0
+            </li>
+            <li>
+                Username: {{ "&nbsp;" | safe }} <strong>{{data.userData.userName}}</strong>
+            </li>
+            <li>
+                Role: {{ "&nbsp;" | safe }} <strong><a class="govuk-footer__link" href="/developer-login">{{data.userData.userRole}}</a></strong>
+            </li>
+             <li>
+                User Grade: <strong>{{ "&nbsp;" | safe }} {{data.userData.userGrade}}</strong>
+            </li>
+            <li>
+                Office Location: <strong>{{ "&nbsp;" | safe }} {{ data.userData.officeLocation}}</strong>
+            </li>
+            <li>
+                Session ID: {{ "&nbsp;" | safe }} 123-456-789-101112
+            </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% endblock %}

@@ -1,4 +1,15 @@
+{#
+SPDX-FileCopyrightText: Copyright (c) Crown Copyright 2025 (Department for Work and Pensions)
+SPDX-License-Identifier: LicenseRef-HMG-Proprietary-DWP-1.0
+#}
+
 {% extends "layouts/main.html" %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
 
 {% block pageTitle %}
   GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
@@ -7,10 +18,7 @@
 {% block content %}
 
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-
-      {% from "govuk/components/input/macro.njk" import govukInput %}
-      {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+    <form method="post" action="/find-a-claim" id="frm-find-a-claim">
 
       {% call govukFieldset({
         legend: {
@@ -20,35 +28,40 @@
         }
       }) %}
 
-        {{ govukInput({
-          label: {
-            text: "National Insurance Number",
-            classes: "govuk-fieldset__legend--m"
-          },
-          hint: {
-            text: "This is 2 letters followed by 6 digits and 1 letter. For example 'QQ123456C'"
-          },
-          classes: "govuk-input--width-10",
-          id: "user-name",
-          name: "userName",
-          autocomplete: ""
+      {% if findAClaimErrors.length %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: findAClaimErrors
         }) }}
+      {% endif %}
 
-        {% from "govuk/components/select/macro.njk" import govukSelect %}
+      {{ govukInput({
+        label: {
+          text: "National Insurance Number",
+          classes: "govuk-fieldset__legend--m"
+        },
+        hint: {
+          text: "This is 2 letters followed by 6 digits and 1 letter. For example 'QQ123456C'"
+        },
+        classes: "govuk-input--width-10",
+        id: "nino",
+        name: "nino",
+        value: data.nino,
+        autocomplete: "off",
+        errorMessage: findAClaimErrors.length and {
+            text: findAClaimErrors[0].text
+          }
+      }) }}
 
       {% endcall %}
 
-    {% from "govuk/components/button/macro.njk" import govukButton %}
-
       {{ govukButton({
         text: "Continue",
-        href: "/account-summary"
+        type: "submit"
       }) }}
 
-    {% from "govuk/components/details/macro.njk" import govukDetails %}
-
     {% call govukDetails({
-      summaryText: "dev tools"
+        summaryText: "dev tools"
     }) %}
 
         <h3 class="govuk-heading-m">Developer Tools</h3>
@@ -57,8 +70,6 @@
           text: "This section contains the developer tools, NOT shown in production!",
           iconFallbackText: "Warning"
         }) }}
-
-        {% from "govuk/components/table/macro.njk" import govukTable %}
 
         {{ govukTable({
           caption: "Test Cases",
@@ -103,7 +114,7 @@
 
     {% endcall %}
       
-    </div>
+    </form>
   </div>
 
 {% endblock %}

@@ -1,4 +1,14 @@
+{#
+SPDX-FileCopyrightText: Copyright (c) Crown Copyright 2025 (Department for Work and Pensions)
+SPDX-License-Identifier: LicenseRef-HMG-Proprietary-DWP-1.0
+#}
+
 {% extends "layouts/main.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block pageTitle %}
   GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
@@ -7,10 +17,7 @@
 {% block content %}
 
   <div class="govuk-grid-row">
-    <form method="post" action="/developer-login">
-
-      {% from "govuk/components/input/macro.njk" import govukInput %}
-      {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+    <form method="post" action="/developer-login" id="frm-developer-login">
 
       {% call govukFieldset({
         legend: {
@@ -24,6 +31,13 @@
           text: "This is the developer login page, NOT shown in production!",
           iconFallbackText: "Warning"
         }) }}
+  
+        {% if loginErrors.length %}
+          {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: loginErrors
+          }) }}
+        {% endif %}
 
         {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
   
@@ -43,37 +57,30 @@
           name: "userName",
           autocomplete: "off",
           errorMessage: loginErrors.length and {
-            text: "Enter your user name"
+            text: loginErrors[0].text
           }
         }) }}
 
-        {% from "govuk/components/select/macro.njk" import govukSelect %}
-
         {{ govukSelect({
-          id: "role",
-          name: "role",
+          id: "user-role",
+          name: "userRole",
           label: {
             text: "Role"
           },
           items: [
             {
-              value: "ABC_001",
-              text: "ABC_001",
+              value: "CIS-901",
+              text: "Claims and Changes Agent",
               selected: true
             },
             {
-              value: "ABC_002",
-              text: "ABC_002",
+              value: "CIS-902",
+              text: "View Only",
               selected: false
             },
             {
-              value: "ABC_003",
-              text: "ABC_003",
-              selected: false
-            },
-            {
-              value: "ABC_004",
-              text: "ABC_004",
+              value: "CIS-903",
+              text: "SCR agent",
               selected: false
             }
           ]
@@ -87,61 +94,54 @@
           },
           items: [
             {
-              value: "eo",
-              text: "EO",
+              value: "CIS-911",
+              text: "EO and above",
               selected: true
             },
             {
-              value: "ug-1",
-              text: "UG-1",
-              selected: false
-            },
-            {
-              value: "ug-2",
-              text: "UG-2",
-              selected: false
-            },
-            {
-              value: "ug-3",
-              text: "UG-3",
+              value: "CIS-???",
+              text: "Other",
               selected: false
             }
           ]
         }) }}
 
         {{ govukSelect({
-          id: "officeLocation",
+          id: "office-location",
           name: "officeLocation",
           label: {
             text: "Office Location"
           },
           items: [
             {
-              value: "gb",
+              value: "GB",
               text: "GB",
               selected: true
             },
             {
-              value: "ni",
+              value: "NI",
               text: "NI",
               selected: false
             },
             {
-              value: "ig",
+              value: "IG",
               text: "IG",
               selected: false
             },
             {
-              value: "unknown",
-              text: "Unknown",
+              value: "All",
+              text: "All (GB / NI / IG)",
+              selected: false
+            },
+            {
+              value: "Dual",
+              text: "Dual (GB / IG)",
               selected: false
             }
           ]
         }) }}
 
       {% endcall %}
-
-      {% from "govuk/components/button/macro.njk" import govukButton %}
 
       {{ govukButton({
         text: "Login",
@@ -168,20 +168,20 @@
           <tbody class="govuk-table__body">
         
             <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">ABC_001</th>
-              <td class="govuk-table__cell">summary_read,personal_read</td>
+              <th scope="row" class="govuk-table__header">CIS-901</th>
+              <td class="govuk-table__cell">Claims and Changes Agent</td>
             </tr>
             <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">ABC_002</th>
-              <td class="govuk-table__cell">summary_read,personal_read,summary_write,personal_write</td>
+              <th scope="row" class="govuk-table__header">CIS-902</th>
+              <td class="govuk-table__cell">View Only</td>
             </tr>
             <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">ABC_003</th>
-              <td class="govuk-table__cell">summary_read,summary_write,summary_write_sensitive</td>
+              <th scope="row" class="govuk-table__header">CIS-903</th>
+              <td class="govuk-table__cell">SCR agent</td>
             </tr>
             <tr class="govuk-table__row">
-              <th scope="row" class="govuk-table__header">ABC_004</th>
-              <td class="govuk-table__cell">summary_write,personal_write</td>
+              <th scope="row" class="govuk-table__header">CIS-911</th>
+              <td class="govuk-table__cell">EO and above</td>
             </tr>
 
           </tbody>
@@ -191,52 +191,31 @@
       <p class="govuk-body">
           <table class="govuk-table">
             <caption class="govuk-table__caption govuk-table__caption--m govuk-!-margin-top-2">SLOC office location mapping</caption>
-            <thead class="govuk-table__head">
+            {# <thead class="govuk-table__head">
               <tr class="govuk-table__row">
                 <th scope="col" class="govuk-table__header">CIS Role Code</th>
                 <th scope="col" class="govuk-table__header">SDA Role Name</th>
               </tr>
-            </thead>
+            </thead> #}
             <tbody class="govuk-table__body">
               <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">102345</th>
+                <th scope="row" class="govuk-table__header">101810</th>
                 <td class="govuk-table__cell">GB</td>
               </tr>
               <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">102346</th>
-                <td class="govuk-table__cell">GB</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">102347</th>
-                <td class="govuk-table__cell">GB</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">101345</th>
+                <th scope="row" class="govuk-table__header">105814</th>
                 <td class="govuk-table__cell">NI</td>
               </tr>
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">101346</th>
-                <td class="govuk-table__cell">NI</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">101347</th>
-                <td class="govuk-table__cell">NI</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">103345</th>
+                <th scope="row" class="govuk-table__header">106124</th>
                 <td class="govuk-table__cell">IG</td>
               </tr>
               <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">103346</th>
-                <td class="govuk-table__cell">IG</td>
+                <th scope="row" class="govuk-table__header">110000</th>
+                <td class="govuk-table__cell">All Regions</td>
               </tr>
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">103347</th>
-                <td class="govuk-table__cell">IG</td>
-              </tr>
-              <tr class="govuk-table__row">
-                <th scope="row" class="govuk-table__header">104347</th>
-                <td class="govuk-table__cell">GB,NI</td>
+               <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">120000</th>
+                <td class="govuk-table__cell">GB and IG</td>
               </tr>
             </tbody>
           </table>
