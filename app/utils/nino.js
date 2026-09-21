@@ -22,7 +22,7 @@ class Nino {
 
         const cleanedNino = nino.replace(/\u0020/g, "");
 
-        const ninoRegex = /^(?!BG|GB|NK|KN|TN|NT|ZZ)[ABCEGHJ-PRSTW-Z][ABCEGHJ-NPRSTW-Z]\d{6}[A-D]$/i;
+        const ninoRegex = /^(?!BG|GB|NK|KN|TN|NT|ZZ)[ABCEGHJ-PRSTW-Z][ABCEGHJ-NPRSTW-Z]\d{6}[A-DX ]?$/i;
 
         return cleanedNino.match(ninoRegex) !== null;
     }
