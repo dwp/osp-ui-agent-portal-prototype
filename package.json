@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "govuk-prototype-kit dev",
+    "dev": "PORT=3001 govuk-prototype-kit dev",
     "serve": "govuk-prototype-kit serve",
     "start": "govuk-prototype-kit start"
   },
