@@ -1,0 +1,67 @@
+{#
+For guidance on how to use layouts see:
+https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
+#}
+
+{% block content %}
+
+    {{ govukServiceNavigation({
+      serviceName: "Mr Joe Pineapples PCB",
+      serviceUrl: "#"
+    }) }}
+    {{ govukServiceNavigation({
+      serviceName: "SE 11 00 20 A | Date of Birth: 7 March 1972",
+      serviceUrl: "#"
+    }) }}
+
+    {{ govukServiceNavigation({
+      navigation: [
+        {
+          href: "/account-summary",
+          text: "Account Summary",
+          active: true
+        },
+        {
+          href: "#",
+          text: "Personal Details"
+        },
+        {
+          href: "#",
+          text: "Notes"
+        },
+        {
+          href: "#",
+          text: "Notifications & tasks"
+        },
+        {
+          href: "#",
+          text: "Payment summary"
+        },
+        {
+          href: "#",
+          text: "Payable rates"
+        },
+        {
+          href: "#",
+          text: "Adjustments"
+        },
+        {
+          href: "/direct-payment-details",
+          text: "Direct payment details"
+        },
+        {
+          href: "#",
+          text: "Adjudication history"
+        },
+        {
+          href: "#",
+          text: "Relationship summary"
+        },
+        {
+          href: "#",
+          text: "Residence history"
+        }
+      ]
+    }) }}
+  
+{% endblock %}

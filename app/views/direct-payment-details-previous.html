@@ -1,0 +1,126 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block pageTitle %}
+  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+
+  {% include "layouts/account-header.html" %}
+
+    <br/>
+
+    {{ govukBackLink({
+      text: "Back",
+      href: "/direct-payment-details"
+    }) }}
+
+    <br/>
+
+    <p class="govuk-body govuk-!-margin-bottom-4">
+      <h3 class="govuk-heading-m">Previous direct payment details</h3>
+    </p>
+
+    {{ govukSummaryList({
+      card: {
+        title: {
+          text: "Previous direct payment details 1"
+        }
+      },
+      rows: [
+        {
+          key: {
+            text: "Account name"
+          },
+          value: {
+            text: "MRS Historic"
+          }
+        },
+        {
+          key: {
+            text: "Periodicity"
+          },
+          value: {
+            text: "Weekly"
+          }
+        },
+        {
+          key: {
+            text: "Bank details"
+          },
+          value: {
+            html: "Bank name: CITIBANK<br>Sort code: 18 50 08<br>Account number: 11 23 06 11<br>Account type: Checking / current"
+          }
+        },
+        {
+          key: {
+            text: "Start date"
+          },
+          value: {
+            html: "6 April 2021"
+          }
+        },
+        {
+          key: {
+            text: "End date"
+          },
+          value: {
+            html: "6 April 2023"
+          }
+        }
+      ]
+    }) }}
+
+    {{ govukSummaryList({
+      card: {
+        title: {
+          text: "Previous direct payment details 2"
+        }
+      },
+      rows: [
+        {
+          key: {
+            text: "Account name"
+          },
+          value: {
+            text: "MRS Historic 5"
+          }
+        },
+        {
+          key: {
+            text: "Periodicity"
+          },
+          value: {
+            text: "Weekly"
+          }
+        },
+        {
+          key: {
+            text: "Bank details"
+          },
+          value: {
+            html: "Bank name: CITIBANK<br>Sort code: 18 50 08<br>Account number: 11 23 06 11<br>Account type: Checking / current"
+          }
+        },
+        {
+          key: {
+            text: "Start date"
+          },
+          value: {
+            html: "6 April 2020"
+          }
+        },
+        {
+          key: {
+            text: "End date"
+          },
+          value: {
+            html: "6 April 2023"
+          }
+        }
+      ]
+    }) }}
+
+{% endblock %}

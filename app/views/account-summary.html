@@ -1,5 +1,4 @@
 {% extends "layouts/main.html" %}
-{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
@@ -9,67 +8,7 @@
 
 {% block content %}
 
-
-  <div class="govuk-grid-row">
-
-    {{ govukServiceNavigation({
-      serviceName: "Mr Joe Pineapples PCB",
-      serviceUrl: "#"
-    }) }}
-    {{ govukServiceNavigation({
-      serviceName: "SE 11 00 20 A | Date of Birth: 7 March 1972",
-      serviceUrl: "#"
-    }) }}
-
-    {{ govukServiceNavigation({
-      navigation: [
-        {
-          href: "#",
-          text: "Account Summary",
-          active: true
-        },
-        {
-          href: "#",
-          text: "Personal Details"
-        },
-        {
-          href: "#",
-          text: "Notes"
-        },
-        {
-          href: "#",
-          text: "Notifications & tasks"
-        },
-        {
-          href: "#",
-          text: "Payment summary"
-        },
-        {
-          href: "#",
-          text: "Payable rates"
-        },
-        {
-          href: "#",
-          text: "Adjustments"
-        },
-        {
-          href: "#",
-          text: "Direct payment details"
-        },
-        {
-          href: "#",
-          text: "Adjudication history"
-        },
-        {
-          href: "#",
-          text: "Relationship summary"
-        },
-        {
-          href: "#",
-          text: "Residence history"
-        }
-      ]
-    }) }}
+  {% include "layouts/account-header.html" %}
 
     <p class="govuk-body govuk-!-margin-bottom-4">
       <h3 class="govuk-heading-m">Account summary</h3>
@@ -79,11 +18,12 @@
       <a href="#" class="govuk-link">Account status history</a>.
     </p>
 
-    <p class="govuk-body govuk-!-margin-bottom-4">
-      <h3 class="govuk-heading-m">Old State Pension</h3>
-    </p>
-
     {{ govukSummaryList({
+      card: {
+        title: {
+          text: "Old State Pension"
+        }
+      },
       rows: [
         {
           key: {
@@ -169,11 +109,12 @@
       ]
     }) }}
 
-    <p class="govuk-body govuk-!-margin-bottom-4">
-      <h3 class="govuk-heading-m">Payee Details</h3>
-    </p>
-
     {{ govukSummaryList({
+      card: {
+        title: {
+          text: "Payee Details"
+        }
+      },
       rows: [
         {
           key: {
@@ -201,8 +142,6 @@
         }
       ]
     }) }}
-
-  </div>
     
 
 {% endblock %}
