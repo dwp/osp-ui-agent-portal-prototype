@@ -1,9 +1,0 @@
-{
-  "serviceName": "Old State Pension",
-  "useServiceNavigation": true,
-  "plugins": {
-    "govuk-frontend": {
-      "rebrand": true
-    }
-  }
-}
