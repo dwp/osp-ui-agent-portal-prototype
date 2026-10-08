@@ -1,4 +1,4 @@
-# Osp Ui Agent Portal Prototype
+# Blank Kit
 
 
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://dwp.gitlab-dedicated.com/dwp/user-centred-design/osp-ui-agent-portal-prototype.git
+git remote add origin https://dwp.gitlab-dedicated.com/dwp/user-centred-design/templates/blank-kit.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-* [Set up project integrations](https://dwp.gitlab-dedicated.com/dwp/user-centred-design/osp-ui-agent-portal-prototype/-/settings/integrations)
+* [Set up project integrations](https://dwp.gitlab-dedicated.com/dwp/user-centred-design/templates/blank-kit/-/settings/integrations)
 
 ## Collaborate with your team
 
