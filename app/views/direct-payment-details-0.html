@@ -1,0 +1,25 @@
+{% extends "layouts/main.html" %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block pageTitle %}
+  GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block content %}
+  {% set pageContext = {currentUrl: '/direct-payment-details'} %}
+  {% include "layouts/account-header.html" %}
+
+    <p class="govuk-body govuk-!-margin-bottom-4">
+      <h3 class="govuk-heading-m">Direct payment details</h3>
+    </p>
+
+    <p class="govuk-body">
+      <a href="/direct-payment-details-add" class="govuk-link"><b>Add bank or building society</b></a>
+    </p>
+
+    <div class="govuk-inset-text">
+      No current direct payment details are available.
+    </div>
+
+{% endblock %}
